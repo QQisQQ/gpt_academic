@@ -24,7 +24,8 @@ def get_crazy_functions():
     from crazy_functions.对话历史存档 import 对话历史存档
     from crazy_functions.对话历史存档 import 载入对话历史存档
     from crazy_functions.对话历史存档 import 删除所有本地对话历史记录
-    
+
+
     from crazy_functions.批量Markdown翻译 import Markdown英译中
     function_plugins = {
         "解析整个Python项目": {
@@ -210,6 +211,19 @@ def get_crazy_functions():
 
     ###################### 第三组插件 ###########################
     # [第三组插件]: 尚未充分测试的函数插件
+    try:
+        from crazy_functions.NewBing语法纠错 import NewBing语法纠错
+        function_plugins.update({
+            "NewBing语法纠错": {
+                "Color": "stop",
+                "AsButton": False,  # 加入下拉菜单中
+                "AdvancedArgs": False, # 调用时，切换为添加双引号模式（默认False）
+                "ArgsReminder": "可以输入txt在这，也可以不输入", # 高级参数输入区的显示提示
+                "Function": HotReload(NewBing语法纠错)
+            }
+        })
+    except:
+        print('Load function plugin failed')
 
     try:
         from crazy_functions.下载arxiv论文翻译摘要 import 下载arxiv论文并翻译摘要

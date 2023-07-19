@@ -15,23 +15,28 @@ def NewBing语法纠错(txt, llm_kwargs, plugin_kwargs, chatbot, history, system
     history = []    # 清空历史，以免输入溢出
     chatbot.append(("这是什么功能？", "[Local Message] New Bing禁止联网并且仅纠错随后的段落"))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面 # 由于请求gpt需要一段时间，我们先及时地做一次界面更新
+    if ("advanced_arg" in plugin_kwargs) and (plugin_kwargs["advanced_arg"] == ""): plugin_kwargs.pop("advanced_arg")
+    advanced_arg = plugin_kwargs.get("advanced_arg", txt)
 
-    i_say = r"Can you help me ensure that the grammar and the spelling is correct? " +\
-            r"Do not try to polish the text, if no mistake is found, tell me that this paragraph is good." +\
-            r"If you find grammar or spelling mistakes, please list mistakes you find in a two-column markdown table, " +\
-            r"put the original text the first column, " +\
-            r"put the corrected text in the second column and highlight the key words you fixed.""\n" +\
-            r"Example:""\n" +\
-            r"Paragraph: How is you? Do you knows what is it?""\n" +\
-            r"| Original sentence | Corrected sentence |""\n" +\
-            r"| :--- | :--- |""\n" +\
-            r"| How **is** you? | How **are** you? |""\n" +\
-            r"| Do you **knows** what **is** **it**? | Do you **know** what **it** **is** ? |""\n" +\
-            r"The following paragraphs are taken from an academic paper. " +\
-            r"You need to report all grammar and spelling mistakes following the example above and without searching the internet."+\
-            + "\n\n" +\
-            "\"" + txt + "\"" 
-    
+    if "advanced_arg" not in plugin_kwargs:
+        i_say = r"Can you help me ensure that the grammar and the spelling is correct? " +\
+                r"Do not try to polish the text, if no mistake is found, tell me that this paragraph is good." +\
+                r"If you find grammar or spelling mistakes, please list mistakes you find in a two-column markdown table, " +\
+                r"put the original text the first column, " +\
+                r"put the corrected text in the second column and highlight the key words you fixed.""\n" +\
+                r"Example:""\n" +\
+                r"Paragraph: How is you? Do you knows what is it?""\n" +\
+                r"| Original sentence | Corrected sentence |""\n" +\
+                r"| :--- | :--- |""\n" +\
+                r"| How **is** you? | How **are** you? |""\n" +\
+                r"| Do you **knows** what **is** **it**? | Do you **know** what **it** **is** ? |""\n" +\
+                r"The following paragraphs are taken from an academic paper. " +\
+                r"You need to report all grammar and spelling mistakes following the example above and without searching the internet."+\
+                + "\n\n" +\
+                "\"" + txt + "\"" 
+    else:
+        i_say = "\"" + advanced_arg + "\""
+        
     gpt_say = yield from request_gpt_model_in_new_thread_with_ui_alive(
         inputs=i_say, inputs_show_user=i_say, 
         llm_kwargs=llm_kwargs, chatbot=chatbot, history=[], 
