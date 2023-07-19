@@ -16,9 +16,9 @@ def NewBing语法纠错(txt, llm_kwargs, plugin_kwargs, chatbot, history, system
     chatbot.append(("这是什么功能？", "[Local Message] New Bing禁止联网并且仅纠错随后的段落"))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面 # 由于请求gpt需要一段时间，我们先及时地做一次界面更新
     if ("advanced_arg" in plugin_kwargs) and (plugin_kwargs["advanced_arg"] == ""): plugin_kwargs.pop("advanced_arg")
-    advanced_arg = plugin_kwargs.get("advanced_arg", txt)
+    advanced_arg = plugin_kwargs.get("advanced_arg", "")
 
-    if "advanced_arg" not in plugin_kwargs:
+    if advanced_arg == "":
         i_say = r"Can you help me ensure that the grammar and the spelling is correct? " +\
                 r"Do not try to polish the text, if no mistake is found, tell me that this paragraph is good." +\
                 r"If you find grammar or spelling mistakes, please list mistakes you find in a two-column markdown table, " +\

@@ -217,7 +217,7 @@ def get_crazy_functions():
             "NewBing语法纠错": {
                 "Color": "stop",
                 "AsButton": False,  # 加入下拉菜单中
-                "AdvancedArgs": False, # 调用时，切换为添加双引号模式（默认False）
+                "AdvancedArgs": True, # 调用时，切换为添加双引号模式（默认False）
                 "ArgsReminder": "可以输入txt在这，也可以不输入", # 高级参数输入区的显示提示
                 "Function": HotReload(NewBing语法纠错)
             }
