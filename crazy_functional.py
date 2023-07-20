@@ -212,14 +212,14 @@ def get_crazy_functions():
     ###################### 第三组插件 ###########################
     # [第三组插件]: 尚未充分测试的函数插件
     try:
-        from crazy_functions.NewBing工具箱 import NewBing语法纠错
+        from crazy_functions.NewBing工具箱 import NewBing工具箱
         function_plugins.update({
             "NewBing工具箱": {
                 "Color": "stop",
                 "AsButton": False,  # 加入下拉菜单中
                 "AdvancedArgs": True, # 调用时，唤起高级参数输入区（默认False）
-                "ArgsReminder": "模型换成newbing且注意一定要是creative模式", # 高级参数输入区的显示提示
-                "Function": HotReload(NewBing语法纠错)
+                "ArgsReminder": "correct为纠错模式，注意一定要是creative模式的Newbing", # 高级参数输入区的显示提示
+                "Function": HotReload(NewBing工具箱)
             }
         })
     except:
